@@ -1,9 +1,9 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,19 +19,29 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <Ionicons name="home" size={28} style={[{ marginBottom: -3 }]} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
+        <Tabs.Screen
+            name="dashboard"
+            options={{
+                title: 'Report',
+                tabBarIcon: ({ color, focused }) => (
+                    <Ionicons name="analytics-outline" size={28} style={[{ marginBottom: -3 }]} color={color} />
+                ),
+            }}
+        />
+
+        <Tabs.Screen
+            name="profile"
+            options={{
+                title: 'Profile',
+                tabBarIcon: ({ color, focused }) => (
+                    <Ionicons name="person" size={28} style={[{ marginBottom: -3 }]} color={color} />
+                ),
+            }}
+        />
     </Tabs>
   );
 }
