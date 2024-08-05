@@ -1,5 +1,5 @@
 import { Appbar } from 'react-native-paper';
-import {router} from 'expo-router';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
     return (

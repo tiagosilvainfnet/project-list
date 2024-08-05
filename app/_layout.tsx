@@ -41,21 +41,11 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="login" initialParams={{
-          setCurrentRoute: setCurrentRoute
-        }} options={{ headerShown: false }} />
-        <Stack.Screen name="register" initialParams={{
-          setCurrentRoute: setCurrentRoute
-        }} options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" initialParams={{
-          setCurrentRoute: setCurrentRoute
-        }} options={{ headerShown: false }} />
-        <Stack.Screen name="settings" initialParams={{
-          setCurrentRoute: setCurrentRoute
-        }} />
-        <Stack.Screen name="+not-found" initialParams={{
-          setCurrentRoute: setCurrentRoute
-        }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="register" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="settings" />
+        <Stack.Screen name="+not-found"/>
       </Stack>
     </ThemeProvider>
   );
