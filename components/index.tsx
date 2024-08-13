@@ -4,7 +4,7 @@ export { default as Card } from './card';
 export { default as Fab } from './fab';
 export { default as List } from './list';
 export { default as AppBar } from './navigation/AppBar';
-export { default as TabBarIcon } from './navigation/TabBarIcon';
+export { default as Menu } from './menu';
 export { default as ProgressBar } from './progressbar';
 export { default as Radio } from './radio';
 export { default as SnackBar } from './snackbar';

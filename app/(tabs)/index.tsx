@@ -1,17 +1,7 @@
-import { Appbar } from 'react-native-paper';
-import { router } from 'expo-router';
-import { Text } from 'react-native';
+import Topbar from "@/components/topbar";
 
-export default function HomeScreen() {
-    return (
-        <>
-            <Appbar.Header>
-                <Appbar.Content title="Home" />
-                <Appbar.Action icon={'dots-vertical'} onPress={() => {
-                    router.push('settings')
-                }} />
-            </Appbar.Header>
-            <Text>HomeScreen</Text>
-        </>
-    );
+export default function Home() {
+    return  <>
+                <Topbar title="Home"/>
+            </>;
 }

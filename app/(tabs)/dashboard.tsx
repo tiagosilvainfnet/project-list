@@ -1,13 +1,7 @@
-import {Appbar} from "react-native-paper";
-import {router} from "expo-router";
+import Topbar from "@/components/topbar";
 
-export default function TabTwoScreen() {
-  return (
-      <Appbar.Header>
-        <Appbar.Content title="Dashboard" />
-          <Appbar.Action icon={'dots-vertical'} onPress={() => {
-              router.push('settings')
-          }} />
-      </Appbar.Header>
-  );
+export default function Dashboard() {
+    return  <>
+        <Topbar title="Dashboard" />
+    </>;
 }

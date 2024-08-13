@@ -1,13 +1,7 @@
-import {Appbar} from "react-native-paper";
-import {router} from "expo-router";
+import Topbar from "@/components/topbar";
 
-export default function ProfileScreen() {
-    return (
-        <Appbar.Header>
-            <Appbar.Content title="Perfil" />
-            <Appbar.Action icon={'dots-vertical'} onPress={() => {
-                router.push('settings')
-            }} />
-        </Appbar.Header>
-    );
+export default function Profile() {
+    return  <>
+                <Topbar title="Perfil" />
+            </>;
 }

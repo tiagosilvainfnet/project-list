@@ -1,11 +1,17 @@
 import { Slot } from 'expo-router';
 import { SessionProvider } from './ctx';
+import { PaperProvider } from 'react-native-paper';
+import {useColorScheme} from "react-native";
+import {darkTheme,lightTheme} from "@/constants/Theme";
 
 export default function Root() {
-  // Set up the auth context and render our layout inside of it.
+  const theme = useColorScheme();
+
   return (
-      <SessionProvider>
-        <Slot />
-      </SessionProvider>
+      <PaperProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+          <SessionProvider>
+            <Slot />
+          </SessionProvider>
+      </PaperProvider>
   );
 }
