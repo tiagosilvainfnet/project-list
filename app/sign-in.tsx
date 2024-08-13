@@ -2,16 +2,15 @@ import {Text} from "react-native";
 import {Button} from "react-native-paper";
 import {router} from "expo-router";
 import React, {useEffect} from "react";
+import {useSession} from "@/app/ctx";
 
 // @ts-ignore
-const LoginScreen = () => {
-    const login = () => {
-        router.navigate('(tabs)');
-    }
+const SignIn = () => {
+    const { signIn } = useSession();
 
     return  <Text>
-        <Button onPress={login}>Login</Button>
+        <Button onPress={signIn}>Login</Button>
     </Text>
 }
 
-export default LoginScreen;
+export default SignIn;

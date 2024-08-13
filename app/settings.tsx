@@ -2,14 +2,13 @@ import {Text} from "react-native";
 import {Button} from "react-native-paper";
 import {router} from "expo-router";
 import React from "react";
+import {useSession} from "@/app/ctx";
 
 const SettingsScreen = () => {
-    const logout = () => {
-        router.navigate('login');
-    }
+    const { signOut } = useSession();
 
     return  <Text>
-        <Button onPress={logout}>Sair</Button>
+        <Button onPress={signOut}>Sair</Button>
     </Text>
 }
 

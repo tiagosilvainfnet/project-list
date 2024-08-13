@@ -3,7 +3,7 @@ import {Button} from "react-native-paper";
 import {router} from "expo-router";
 
 // @ts-ignore
-const RegisterScreen = ({ route }) => {
+const SignUp = ({ route }) => {
 
     const register = () => {
         router.navigate('(tabs)');
@@ -14,4 +14,4 @@ const RegisterScreen = ({ route }) => {
     </Text>
 }
 
-export default RegisterScreen;
+export default SignUp;
