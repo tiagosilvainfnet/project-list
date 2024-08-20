@@ -1,7 +1,6 @@
 import {Redirect, Tabs} from 'expo-router';
 import React from 'react';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {useSession} from "@/app/ctx";
 import {Text} from "react-native";
@@ -9,7 +8,6 @@ import {useTheme} from "react-native-paper";
 
 export default function TabLayout() {
   const theme = useTheme();
-  const colorScheme = useColorScheme();
   const { session, isLoading } = useSession();
 
   if(isLoading){
@@ -24,6 +22,9 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: theme.colors.primary,
         headerShown: false,
+        tabBarStyle: {
+            backgroundColor: theme.colors.background,
+        }
       }}>
       <Tabs.Screen
         name="index"

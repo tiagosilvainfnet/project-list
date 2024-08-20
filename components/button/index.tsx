@@ -1,7 +1,9 @@
-import {Text} from "react-native";
+import { Button as Btn } from 'react-native-paper';
 
-const Button = () => {
-    return <Text>Component</Text>
-}
-
-export default Button;
+// @ts-ignore
+const Index = ({ children, ...props }) => {
+    return  <Btn {...props}>
+        {children}
+    </Btn>
+};
+export default Index;

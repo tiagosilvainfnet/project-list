@@ -1,7 +1,7 @@
-import {Text} from "react-native";
+import {List as Lt } from "react-native-paper";
 
-const List = () => {
-    return <Text>List</Text>
+const List = (props: any) => {
+    return <Lt.Item {...props}/>
 }
 
 export default List;

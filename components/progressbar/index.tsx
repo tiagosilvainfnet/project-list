@@ -1,7 +1,7 @@
-import {Text} from "react-native";
+import { ProgressBar as PgBar } from 'react-native-paper';
 
-const ProgressBar = () => {
-    return <Text>ProgressBar</Text>
+const ProgressBar = (props: any) => {
+    return <PgBar {...props} />
 }
 
 export default ProgressBar;

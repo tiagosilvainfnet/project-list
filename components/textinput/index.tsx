@@ -1,7 +1,7 @@
-import {Text} from "react-native";
+import {TextInput as TPi} from "react-native-paper";
 
-const TextInput = () => {
-    return <Text>TextInput</Text>
+const TextInput = (props: any) => {
+    return <TPi {...props}/>
 }
 
 export default TextInput;

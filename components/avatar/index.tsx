@@ -1,7 +1,44 @@
-import {Text} from "react-native";
+import * as React from 'react';
+import { Avatar as Av } from 'react-native-paper';
 
-const Avatar = () => {
-    return <Text>Avatar</Text>
+// @ts-ignore
+const Avatar = (props: AvatarProps) => {
+    const detectTypeAvatar = (props: any) => {
+        if(props.source){
+            return <Av.Image
+                style={{
+                    ...props.style,
+                    backgroundColor: props.bgColor
+                }}
+                {...props} />;
+        }else if (props.icon) {
+            return <Av.Icon
+                style={{
+                    ...props.style,
+                    backgroundColor: props.bgColor
+                }}
+                {...props}
+            />;
+        }else{
+            return <Av.Text
+                style={{
+                    ...props.style,
+                    backgroundColor: props.bgColor,
+                    color: props.color
+                }}
+                {...props} />;
+        }
+    }
+
+    // @ts-ignore
+    return detectTypeAvatar(props);
+};
+
+Avatar.defaultProps = {
+    source: null,
+    label: 'XD',
+    bgColor: "#fff",
+    color: "#333"
 }
 
 export default Avatar;
