@@ -79,7 +79,7 @@ const SignIn = () => {
                 ...styles.padding
             }}>
                 <Button mode="contained" onPress={signUp}>
-                    Registrar
+                    Cadastrar
                 </Button>
             </View>
         </View>

@@ -35,12 +35,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
         <AuthContext.Provider
             value={{
                 signIn: (email: string, password: string) => {
-                    // Perform sign-in logic here
                     setSession("xxxxx");
                     return router.replace("(tabs)");
                 },
                 signUp: (email: string, username: string, password: string) => {
-                    // Perform sign-in logic here
                     setSession("xxxxx");
                     return router.replace("(tabs)");
                 },
