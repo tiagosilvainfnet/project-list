@@ -3,7 +3,7 @@ import { useStorageState } from './useStorageState';
 import {Redirect, router} from "expo-router";
 
 const AuthContext = createContext<{
-    signIn: () => void;
+    signIn: (email: string, password: string) => void;
     signOut: () => void;
     session?: string | null;
     isLoading: boolean;
@@ -32,9 +32,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
     return (
         <AuthContext.Provider
             value={{
-                signIn: () => {
+                signIn: (email: string, password: string) => {
                     // Perform sign-in logic here
-                    setSession('xxx');
+                    console.log({ email, password })
+                    setSession("oi");
                     return router.replace("/");
                 },
                 signOut: () => {
