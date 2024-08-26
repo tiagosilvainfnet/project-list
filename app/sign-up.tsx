@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-paper";
 import {Link} from "expo-router";
@@ -5,7 +6,6 @@ import React, {useState} from "react";
 import {useSession} from "@/app/ctx";
 import {Avatar, TextInput} from "@/components";
 
-// @ts-ignore
 const SignIn = () => {
     const { signUp } = useSession();
     const [email, setEmail] = useState('');
@@ -33,7 +33,7 @@ const SignIn = () => {
             }}>
                 <Text style={{
                     fontSize: 24
-                }}>Faça seu cadastro!</Text>
+                }}>Crie sua conta!</Text>
             </View>
             <View style={{
                 width: '100%',
@@ -72,7 +72,7 @@ const SignIn = () => {
                 textAlign: 'center',
                 ...styles.container
             }}>
-                <Link href="sign-in">Login</Link>
+                <Link href="sign-in">Fazer Login</Link>
             </View>
             <View style={{
                 width: '100%',

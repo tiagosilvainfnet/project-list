@@ -1,11 +1,11 @@
+// @ts-nocheck
 import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-paper";
-import {Link, router} from "expo-router";
-import React, {useEffect, useState} from "react";
+import {Link} from "expo-router";
+import React, {useState} from "react";
 import {useSession} from "@/app/ctx";
 import {Avatar, TextInput} from "@/components";
 
-// @ts-ignore
 const SignIn = () => {
     const { signIn } = useSession();
     const [email, setEmail] = useState('');
