@@ -1,17 +1,100 @@
-import {Text} from "react-native";
+import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-paper";
-import {router} from "expo-router";
+import {Link} from "expo-router";
+import React, {useState} from "react";
+import {useSession} from "@/app/ctx";
+import {Avatar, TextInput} from "@/components";
 
 // @ts-ignore
-const SignUp = ({ route }) => {
+const SignIn = () => {
+    const { signUp } = useSession();
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const register = () => {
-        router.navigate('(tabs)');
-    }
-
-    return  <Text>
-        <Button onPress={register}>Cadastrar</Button>
-    </Text>
+    return <ScrollView>
+        <View style={{
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100%',
+        }}>
+            <View style={{
+                width: '100%',
+                marginTop: 100,
+                ...styles.container
+            }}>
+                <Avatar size={200} source={require('../assets/images/logo.jpg')}/>
+            </View>
+            <View style={{
+                width: '100%',
+                textAlign: 'center',
+                ...styles.padding,
+                ...styles.container
+            }}>
+                <Text style={{
+                    fontSize: 24
+                }}>Faça seu cadastro!</Text>
+            </View>
+            <View style={{
+                width: '100%',
+                ...styles.padding
+            }}>
+                <TextInput
+                    keyboardType="email-address"
+                    label="E-mail"
+                    value={email}
+                    onChangeText={setEmail}
+                />
+            </View>
+            <View style={{
+                width: '100%',
+                ...styles.padding
+            }}>
+                <TextInput
+                    label="Usuário"
+                    value={username}
+                    onChangeText={setUsername}
+                />
+            </View>
+            <View style={{
+                width: '100%',
+                ...styles.padding
+            }}>
+                <TextInput
+                    label="Senha"
+                    secureTextEntry={true}
+                    value={password}
+                    onChangeText={setPassword}
+                />
+            </View>
+            <View style={{
+                width: '100%',
+                textAlign: 'center',
+                ...styles.container
+            }}>
+                <Link href="sign-in">Login</Link>
+            </View>
+            <View style={{
+                width: '100%',
+                ...styles.padding
+            }}>
+                <Button mode="contained" onPress={signUp}>
+                    Cadastrar
+                </Button>
+            </View>
+        </View>
+    </ScrollView>
 }
 
-export default SignUp;
+const styles = {
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    padding: {
+        padding: 16
+    }
+}
+
+export default SignIn;

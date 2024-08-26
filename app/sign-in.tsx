@@ -61,7 +61,7 @@ const SignIn = () => {
                         textAlign: 'center',
                         ...styles.container
                     }}>
-                        <Link href="register">Cadastrar</Link>
+                        <Link href="sign-up">Cadastrar</Link>
                     </View>
                     <View style={{
                         width: '100%',
