@@ -9,3 +9,5 @@ export { default as Menu } from './menu';
 export { default as ProgressBar } from './progressbar';
 export { default as SnackBar } from './snackbar';
 export { default as TextInput } from './textinput';
+export { default as Grid} from './grid';
+export { default as Camera} from './camera';
