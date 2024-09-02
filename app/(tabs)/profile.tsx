@@ -122,7 +122,7 @@ export default function Profile() {
         </ScrollView>
         <Camera
             onCapture={async (image: any) => {
-                console.log(image)
+                setUser({...user, image: image});
             }}
             onClose={() => setCameraVisible(false)}
             ref={cameraRef}

@@ -1,8 +1,9 @@
 import {CameraType, CameraView, useCameraPermissions} from "expo-camera";
-import {useImperativeHandle, useState} from "react";
+import {forwardRef, useImperativeHandle, useState} from "react";
 import {Button, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-const Camera = ({ visible, ref, onClose, onCapture }) => {
+// @ts-ignore
+const Camera = forwardRef(({ visible, onClose, onCapture }, ref) => {
     const [facing, setFacing] = useState<CameraType>('front');
     const [permission, requestPermission] = useCameraPermissions();
     const [cameraRef, setCameraRef] = useState(null);
@@ -50,8 +51,9 @@ const Camera = ({ visible, ref, onClose, onCapture }) => {
                             style={styles.camera}
                             facing={facing}>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={() => ref.current.takePicture()}>
-                                <Text style={styles.text}>Tirar foto</Text>
+                            <TouchableOpacity style={styles.button}
+                                  onPress={() => ref.current.takePicture()}>
+                                <Text style={styles.text}>Capture</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
                                 <Text style={styles.text}>Flip Camera</Text>
@@ -63,7 +65,7 @@ const Camera = ({ visible, ref, onClose, onCapture }) => {
                     </CameraView>
                 </View>
             </Modal>
-}
+});
 
 const styles = StyleSheet.create({
     container: {
