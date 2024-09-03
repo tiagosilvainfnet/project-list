@@ -11,3 +11,6 @@ export { default as SnackBar } from './snackbar';
 export { default as TextInput } from './textinput';
 export { default as Grid} from './grid';
 export { default as Camera} from './camera';
+export { default as Text} from './text';
+export { default as Topbar} from './topbar';
+export { default as Dialog} from './dialog';

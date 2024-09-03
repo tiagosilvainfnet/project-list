@@ -40,7 +40,7 @@ export default function Profile() {
                         <Fab
                             icon={"image"}
                             onPress={async () => {
-                                const image = await pickImage(setLoading, false);
+                                const image = await pickImage(setLoading, false, false);
                                 setUser({...user, image: image});
                             }}
                             style={{
