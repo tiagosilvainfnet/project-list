@@ -18,7 +18,7 @@ export default function Profile() {
     });
 
     return  <Grid>
-        <Topbar title="Home" />
+        <Topbar title="Perfil" />
         <ScrollView>
             <Grid style={{
                 display: 'flex',
