@@ -5,6 +5,9 @@ const Card = (props: any) => {
     // @ts-ignore
     return  <Cd>
         {
+            props.source ? <Cd.Cover {...props} /> : null
+        }
+        {
             props.texts?.length > 0 ?
                 // @ts-ignore
                 <Cd.Content>

@@ -18,7 +18,7 @@ export default function Profile() {
     });
 
     return  <Grid>
-        <Topbar title="Home" />
+        <Topbar title="Perfil" />
         <ScrollView>
             <Grid style={{
                 display: 'flex',
@@ -40,7 +40,7 @@ export default function Profile() {
                         <Fab
                             icon={"image"}
                             onPress={async () => {
-                                const image = await pickImage(setLoading, false);
+                                const image = await pickImage(setLoading, false, false);
                                 setUser({...user, image: image});
                             }}
                             style={{

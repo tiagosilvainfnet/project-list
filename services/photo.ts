@@ -1,13 +1,13 @@
 import * as ImagePicker from 'expo-image-picker';
 
-const pickImage = async (setLoading: any, allowsMultipleSelection: boolean) => {
+const pickImage = async (setLoading: any, allowsMultipleSelection: boolean, base64: boolean) => {
     setLoading(true);
 
     let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsMultipleSelection: allowsMultipleSelection,
         aspect: [4, 3],
-        base64: true,
+        base64,
         quality: 1
     });
 
