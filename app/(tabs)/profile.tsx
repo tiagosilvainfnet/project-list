@@ -2,20 +2,34 @@ import Topbar from "@/components/topbar";
 import {Avatar, Camera, Fab, Grid, TextInput} from "@/components";
 import {ScrollView, View} from "react-native";
 import {Button} from "react-native-paper";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {pickImage} from "@/services/photo";
+import {select} from "@/services/database";
 
 export default function Profile() {
     const [loading, setLoading] = useState(false);
     const [cameraVisible, setCameraVisible] = useState(false);
     const cameraRef = useRef(null);
     const [user, setUser] = useState<any>({
-        email: null,
+        uid: null,
+        emailVerified: null,
         username: null,
-        name: null,
-        phone: null,
-        image: null
+        displayName: null,
+        email: null,
+        photoURL: null,
+        phoneNumber: null,
     });
+
+    const loadData = async () => {
+        const data = await select("user", ["uid", "emailVerified", "username", "displayName", "email", "photoURL", "phoneNumber"], "", false);
+        setUser(data)
+    }
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    console.log(user)
 
     return  <Grid>
         <Topbar title="Perfil" />
@@ -33,15 +47,15 @@ export default function Profile() {
                         ...styles.centerImage
                     }}>
                         {
-                            user.image ?
-                                <Avatar size={230} source={{uri: user.image.uri}}/> :
+                            user.photoURL ?
+                                <Avatar size={230} source={{uri: user.photoURL}}/> :
                                 <Avatar size={230} icon="account"/>
                         }
                         <Fab
                             icon={"image"}
                             onPress={async () => {
-                                const image = await pickImage(setLoading, false, false);
-                                setUser({...user, image: image});
+                                const image = await pickImage(setLoading, false, true);
+                                setUser({...user, photoURL: image?.uri});
                             }}
                             style={{
                                 ...styles.fab,
@@ -89,9 +103,9 @@ export default function Profile() {
                 }}>
                     <TextInput
                         label="Nome"
-                        value={user.name}
+                        value={user.displayName}
                         onChangeText={(text: string) => {
-                            setUser({...user, name: text});
+                            setUser({...user, displayName: text});
                         }}
                     />
                 </View>
@@ -102,9 +116,9 @@ export default function Profile() {
                     <TextInput
                         keyboardType="numeric"
                         label="Telefone"
-                        value={user.phone}
+                        value={user.phoneNumber}
                         onChangeText={(text: string) => {
-                            setUser({...user, phone: text});
+                            setUser({...user, phoneNumber: text});
                         }}
                     />
                 </View>
@@ -122,7 +136,7 @@ export default function Profile() {
         </ScrollView>
         <Camera
             onCapture={async (image: any) => {
-                setUser({...user, image: image});
+                setUser({...user, image: image?.uri});
             }}
             onClose={() => setCameraVisible(false)}
             ref={cameraRef}

@@ -3,6 +3,7 @@ import { useStorageState } from './useStorageState';
 import {Redirect, router} from "expo-router";
 import {FirebaseApp, initializeApp} from "firebase/app";
 import {login} from "@/services/auth";
+import {dropTables} from "@/services/database";
 
 const firebaseConfig = {
     apiKey: process.env.EXPO_PUBLIC_API_KEY,
@@ -16,7 +17,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseApp: FirebaseApp = initializeApp(firebaseConfig);
-console.log(firebaseApp)
 
 const AuthContext = createContext<{
     signIn: (email: string, password: string) => void;
@@ -53,7 +53,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         <AuthContext.Provider
             value={{
                 signIn: (email: string, password: string) => {
-                    return login(email, password, setSession, firebaseApp);
+                    return login(email, password, setSession);
                 },
                 signUp: (email: string, username: string, password: string) => {
                     setSession("xxxxx");
@@ -61,6 +61,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
                 },
                 signOut: () => {
                     setSession(null);
+                    dropTables();
                     return router.replace("/sign-in");
                 },
                 firebaseApp: firebaseApp,

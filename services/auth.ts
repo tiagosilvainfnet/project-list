@@ -1,13 +1,13 @@
 import {router} from "expo-router";
-import {getAuth, signInWithCredential, UserCredential} from "@firebase/auth";
-import {insert} from "@/services/database";
+import {Auth, getAuth, signInWithEmailAndPassword, UserCredential} from "@firebase/auth";
+import {createTables, insert} from "@/services/database";
 import {UserInterface} from "@/interfaces/User";
 
-const login = async (email, password, setSession, firebaseApp) => {
-    const auth = getAuth(firebaseApp);
+const login = async (email, password, setSession) => {
+    const auth: Auth = getAuth();
 
     try {
-        const response: UserCredential = await signInWithCredential(auth, email, password);
+        const response: UserCredential = await signInWithEmailAndPassword(auth, email, password);
         const user: any = response.user.toJSON();
         if(user){
             setSession(user.stsTokenManager.accessToken);
@@ -22,12 +22,12 @@ const login = async (email, password, setSession, firebaseApp) => {
                 createdAt: user.createdAt,
                 sync: 1,
             }
+            await createTables();
             await insert("user", _user);
             return router.replace("(tabs)");
         }
 
         throw new Error("Usuário incorreto");
-
     } catch (err) {
         console.error('Erro no login', err);
         throw err;

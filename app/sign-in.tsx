@@ -2,15 +2,16 @@
 import {ScrollView, Text, View} from "react-native";
 import {Button} from "react-native-paper";
 import {Link} from "expo-router";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSession} from "@/app/ctx";
 import {Avatar, TextInput} from "@/components";
 import Snackbar from "@/components/snackbar";
+import {createTables} from "@/services/database";
 
 const SignIn = () => {
     const { signIn } = useSession();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('tiago@gmail.com');
+    const [password, setPassword] = useState('123456');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [helpData, setHelpData] = useState({
