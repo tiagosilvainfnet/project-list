@@ -1,5 +1,7 @@
 import * as SQLite from 'expo-sqlite';
+import * as Network from 'expo-network';
 import {tableItemImageQuery, tableItemQuery, tableUserQuery} from "@/constants/tables";
+import {updateData} from "@/services/realtime";
 
 const getDb = async () => {
     return await SQLite.openDatabaseAsync(process.env.EXPO_PUBLIC_DATABASE_NAME, {
@@ -44,12 +46,64 @@ const dropTables = async () => {
     }
 }
 
-const insert = async (table, data): Promise<String> => {
+const update = async  (table, data, uid, enable_sync): Promise<String> => {
+    try {
+        if (enable_sync) {
+            const sync = await syncFirebase(table, data, data.uid);
+            data.sync = sync ? 1 : 0;
+        }
+
+        const db = await getDb();
+
+        const keys = Object.keys(data);
+        const values = Object.values(data).filter((v) => v !== "");
+        const columns = keys.filter((v) => v !== "").map((v, index) => `${v} = ?`).join(", ").toLowerCase();
+
+        const query = `UPDATE ${table} SET ${columns.substring(0, columns.length)} WHERE uid = '${uid}'`;
+        await db.runAsync(query, values);
+    } catch (err) {
+        console.error(`[database.ts | insert] >> Database error: ${err.toString()}`);
+        throw err;
+    }
+}
+
+const verifyConnection = async () => {
+    const airplane = await Network.isAirplaneModeEnabledAsync();
+    const network = await Network.getNetworkStateAsync();
+    const result =  network.isConnected && network.isInternetReachable && !airplane;
+
+    return result;
+}
+
+const syncFirebase = async (table, data, uid) => {
+    const statusConnection = await verifyConnection();
+    if (statusConnection) {
+        if (Object.keys(data).includes("images")) {
+            // TODO: Aqui salvar no storage
+            updateData(table, {
+                ...data,
+                sync: 1
+            }, uid);
+        } else {
+            updateData(table, {
+                ...data,
+                sync: 1
+            }, uid);
+        }
+    }
+}
+
+const insert = async (table, data, enable_sync): Promise<String> => {
     try {
         const db = await getDb();
 
         if (data.uid === undefined || data.uid === null){
             data.uid = generateUid(28);
+        }
+
+        if (enable_sync) {
+            const sync = await syncFirebase(table, data, data.uid);
+            data.sync = sync ? 1 : 0;
         }
 
         const keys = Object.keys(data);
@@ -61,7 +115,7 @@ const insert = async (table, data): Promise<String> => {
         const query = `INSERT INTO ${table} (${columns}) VALUES (${interrogations})`;
 
         await db.runAsync(query, values);
-        return "";
+        return data.uid;
     } catch (err) {
         console.error(`[database.ts | insert] >> Database error: ${err.toString()}`);
         throw err;
@@ -74,7 +128,7 @@ const select = async (table: string, columns: string[], where: string, many: boo
         const whereString = where !== "" ? `where ${where}` : "";
 
         const db = await getDb();
-        const query = `SELECT ${columnStrin} FROM ${table} ${where};`;
+        const query = `SELECT ${columnStrin} FROM ${table} ${whereString};`;
 
         if (many){
             return await db.getAllAsync(query);
@@ -87,9 +141,22 @@ const select = async (table: string, columns: string[], where: string, many: boo
     }
 }
 
+const syncBothDatabase = async () => {
+
+}
+
+const drop = async (table: string, where: string) => {
+    const db = await getDb();
+    const query = `DELETE FROM ${table} WHERE ${where};`
+    await db.runAsync(query);
+}
+
 export {
+    drop,
+    syncBothDatabase,
     createTables,
     dropTables,
     insert,
-    select
+    select,
+    update
 }

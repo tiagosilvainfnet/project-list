@@ -22,7 +22,6 @@ const login = async (email, password, setSession) => {
                 createdAt: user.createdAt,
                 sync: 1,
             }
-            await createTables();
             await insert("user", _user);
             return router.replace("(tabs)");
         }

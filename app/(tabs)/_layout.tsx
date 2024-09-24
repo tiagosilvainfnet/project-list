@@ -1,14 +1,19 @@
 import {Redirect, Tabs} from 'expo-router';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {useSession} from "@/app/ctx";
 import {Text} from "react-native";
 import {useTheme} from "react-native-paper";
+import {syncBothDatabase} from "@/services/database";
 
 export default function TabLayout() {
   const theme = useTheme();
   const { session, isLoading } = useSession();
+
+  useEffect(() => {
+    syncBothDatabase();
+  }, []);
 
   if(isLoading){
       return <Text>Loading...</Text>;

@@ -1,9 +1,11 @@
 import {Button, Card, Grid, Text, TextInput, SnackBar, Topbar, Dialog} from "@/components";
-import {useLocalSearchParams} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import {ScrollView} from "react-native";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {IconButton, Surface, useTheme} from "react-native-paper";
 import {pickImage} from "@/services/photo";
+import {drop, insert, select, update} from "@/services/database";
+import {ItemImageInterface, ItemInterface} from "@/interfaces/Item";
 
 const NoImage = () => {
     return  <Grid style={{
@@ -39,7 +41,7 @@ const FormScreen = () => {
     const [messageText, setMessageText] = useState(null);
     const [imageSelected, setImageSelected] = useState(null);
     const [data, setData] = useState({
-        id: null,
+        uid: null,
         title: null,
         description: null,
         images: []
@@ -49,9 +51,24 @@ const FormScreen = () => {
         const currentImages = data.images;
 
         images.map((image: any) => {
-            currentImages.push(image);
+            currentImages.push(image.uri);
         });
+
         setData((v: any) => ({...v, images: currentImages}));
+    }
+
+    const loadData = async () => {
+        if (params.uid) {
+            const d: ItemInterface = await select("item", ["uid", "title", "description"], `uid='${params.uid}'`, false);
+            const i: Array<ItemImageInterface> = await select("item_image", ["uid", "image"], `itemUid='${params.uid}'`, true);
+
+            setData({
+                uid: d.uid,
+                description: d.DESCRIPTION,
+                title: d.TITLE,
+                images: i.map((item: ItemImageInterface) => item.image)
+            })
+        }
     }
 
     const removeImage = (index: number): void => {
@@ -60,17 +77,61 @@ const FormScreen = () => {
         setData((v: any) => ({...v, images: currentImages}));
     }
 
+    const _update = async () => {
+        try {
+            let uid = data.uid;
+            if (uid) {
+                await update("item", {
+                    title: data.title,
+                    description: data.description
+                }, uid, true);
+
+                await drop("item_image", `itemUid='${params.uid}'`)
+
+                for(const image of data.images) {
+                    await insert("item_image", {
+                        image: image,
+                        itemUid: uid
+                    }, true)
+                }
+            } else {
+                uid = await insert("item", {
+                    title: data.title,
+                    description: data.description
+                }, true);
+
+                for(const image of data.images) {
+                    await insert("item_image", {
+                        image: image,
+                        itemUid: uid
+                    }, true)
+                }
+            }
+
+            setMessageText(data.uid ? "Dado atualizado com sucesso" : "Dado salvo com sucesso");
+            setTimeout(() => {
+                router.back();
+            }, 2000);
+        } catch (err) {
+            console.error("Err: ", err)
+        }
+    }
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
     return  <Grid style={{
                 height: '100%',
                 width: '100%'
             }}>
                 <Grid>
-                    <Topbar title={data.id ? "Editar item" : "Novo item"} back={true} menu={false}/>
+                    <Topbar title={data.uid ? "Editar item" : "Novo item"} back={true} menu={false}/>
                 </Grid>
                 <Grid style={{
                     ...styles.padding
                 }}>
-                    <Text variant="headlineLarge">{params.id ? "Editar item" : "Cadastrar item"}</Text>
+                    <Text variant="headlineLarge">{data.uid ? "Editar item" : "Cadastrar item"}</Text>
                 </Grid>
                 <ScrollView>
                     <Grid style={{
@@ -163,7 +224,7 @@ const FormScreen = () => {
                                                 height: '100%',
                                                 zIndex: 2
                                             }}
-                                            source={image}
+                                            source={{uri: image}}
                                         />
                                         <Surface
                                             elevation={2}
@@ -192,9 +253,10 @@ const FormScreen = () => {
                         ...styles.padding
                     }}>
                         <Button
+                            onPress={_update}
                             mode="contained"
                         >{
-                            data.id ? "Editar" : "Salvar"
+                            data.uid ? "Editar" : "Salvar"
                         }</Button>
                     </Grid>
                 </ScrollView>

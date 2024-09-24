@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 import {useSession} from "@/app/ctx";
 import {Avatar, TextInput} from "@/components";
 import Snackbar from "@/components/snackbar";
-import {createTables} from "@/services/database";
+import {createTables, dropTables} from "@/services/database";
 
 const SignIn = () => {
     const { signIn } = useSession();
@@ -25,6 +25,16 @@ const SignIn = () => {
             [name]: text.length === 0 ? `O Campo de ${name} é obrigatório` : null
         }))
     }
+
+    const initDatabase = async () => {
+        await dropTables();
+        await createTables();
+    }
+
+    useEffect(() => {
+        initDatabase();
+    }, []);
+
 
     return <>
             <ScrollView>

@@ -61,7 +61,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
                 },
                 signOut: () => {
                     setSession(null);
-                    dropTables();
                     return router.replace("/sign-in");
                 },
                 firebaseApp: firebaseApp,
